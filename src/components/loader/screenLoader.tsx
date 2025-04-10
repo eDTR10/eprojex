@@ -1,5 +1,5 @@
 import './loader.css'
-const Loader = () => {
+const Loaderx = () => {
   return (
     <div className='flex items-center justify-center w-full h-full bg-background '>
 <svg className='loading' viewBox="25 25 50 50">
@@ -10,4 +10,4 @@ const Loader = () => {
   )
 }
 
-export default Loader
+export default Loaderx

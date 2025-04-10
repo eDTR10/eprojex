@@ -2,7 +2,7 @@ import React from 'react'
 
 const ProjectsMainContainer = () => {
   return (
-    <div>
+    <div className=' w-full h-[600vh] flex bg-red-900'>
       
     </div>
   )

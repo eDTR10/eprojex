@@ -7,7 +7,7 @@ import { Suspense, lazy } from "react";
 
 import NotFound from "./screens/notFound";
 import Loader from './components/loader/loader.tsx';
-
+import Loaderx from './components/loader/screenLoader.tsx';
 const Page1= lazy(() =>
   wait(1300).then(() => import("./screens/page1.tsx"))
 );
@@ -20,9 +20,7 @@ const Login = lazy(() =>
   wait(1300).then(() => import("./screens/Authentication/Login/Login.tsx"))
 );
 
-const Page2= lazy(() =>
-  wait(1300).then(() => import("./screens/page2.tsx"))
-);
+
 
 
 
@@ -30,11 +28,28 @@ const Admin= lazy(() =>
   wait(1300).then(() => import("./screens/Admin/Admin.tsx"))
 );
 
+const DashboardMainContainer= lazy(() =>
+  wait(1300).then(() => import("./screens/Admin/Dashboard/DashboardMainContainer.tsx"))
+);
+
+const ProjectsMainContainer= lazy(() =>
+  wait(1300).then(() => import("./screens/Admin/Projects/ProjectsMainContainer.tsx"))
+);
+
+const SettingMainContainer= lazy(() =>
+  wait(1300).then(() => import("./screens/Admin/Setting/SettingMainContainer.tsx"))
+);
+
+const AttendanceMainContainer= lazy(() =>
+  wait(1300).then(() => import("./screens/Admin/Attendance/AttendanceMainContainer.tsx"))
+);
+
+
 const router = createBrowserRouter([
   {
     path: "/react-vite-supreme",
     element: 
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loaderx />}>
       <Login />
     </Suspense>
     ,
@@ -52,14 +67,34 @@ const router = createBrowserRouter([
         path: "/react-vite-supreme/admin/dashboard/",
         element: <>
         <Suspense fallback={<Loader />}>
-          <Page2 />
+          <DashboardMainContainer />
+        </Suspense>
+      </>,
+      },
+      {
+        path: "/react-vite-supreme/admin/projects/",
+        element: <>
+        <Suspense fallback={<Loader />}>
+          <ProjectsMainContainer />
+        </Suspense>
+      </>,
+      },{
+        path: "/react-vite-supreme/admin/attendance/",
+        element: <>
+        <Suspense fallback={<Loader />}>
+          <AttendanceMainContainer />
+        </Suspense>
+      </>,
+      },
+      {
+        path: "/react-vite-supreme/admin/setting/",
+        element: <>
+        <Suspense fallback={<Loader />}>
+          <SettingMainContainer />
         </Suspense>
       </>,
       },
       
-
-
-
       {
         path: "*",
         element: <NotFound />,
