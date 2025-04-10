@@ -12,36 +12,51 @@ const Page1= lazy(() =>
   wait(1300).then(() => import("./screens/page1.tsx"))
 );
 
+
+
+
+
+const Login = lazy(() =>
+  wait(1300).then(() => import("./screens/Authentication/Login/Login.tsx"))
+);
+
 const Page2= lazy(() =>
   wait(1300).then(() => import("./screens/page2.tsx"))
 );
 
+
+
+const Admin= lazy(() =>
+  wait(1300).then(() => import("./screens/Admin/Admin.tsx"))
+);
+
 const router = createBrowserRouter([
   {
-    path: "/react-vite-supreme/",
-    element: <App />,
+    path: "/react-vite-supreme",
+    element: 
+    <Suspense fallback={<Loader />}>
+      <Login />
+    </Suspense>
+    ,
+  },
+  {
+    path: "/react-vite-supreme/admin",
+    element: <Admin/>,
     
     children: [
       {
-        path: "/react-vite-supreme/", 
-        element: <Navigate to="/react-vite-supreme/page1" />, 
+        path: "/react-vite-supreme/admin", 
+        element: <Navigate to="/react-vite-supreme/admin/dashboard/" />, 
       },
       {
-        path: "/react-vite-supreme/page1",
-        element: <>
-        <Suspense fallback={<Loader />}>
-          <Page1 />
-        </Suspense>
-      </>,
-      },
-      {
-        path: "/react-vite-supreme/page2",
+        path: "/react-vite-supreme/admin/dashboard/",
         element: <>
         <Suspense fallback={<Loader />}>
           <Page2 />
         </Suspense>
       </>,
       },
+      
 
 
 
