@@ -43,7 +43,7 @@ const DashboardMainContainer = () => {
     };
 
     // Handle menu item click
-    const handleMenuClick = (menuItem:any) => {
+    const handleMenuClick = (menuItem: any) => {
         setActiveMenu(menuItem);
     };
 
