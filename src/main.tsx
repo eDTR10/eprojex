@@ -12,10 +12,6 @@ const Page1= lazy(() =>
   wait(1300).then(() => import("./screens/page1.tsx"))
 );
 
-
-
-
-
 const Login = lazy(() =>
   wait(1300).then(() => import("./screens/Authentication/Login/Login.tsx"))
 );
@@ -24,15 +20,13 @@ const Page2= lazy(() =>
   wait(1300).then(() => import("./screens/page2.tsx"))
 );
 
-
-
 const Admin= lazy(() =>
   wait(1300).then(() => import("./screens/Admin/Admin.tsx"))
 );
 
 const router = createBrowserRouter([
   {
-    path: "/react-vite-supreme",
+    path: "/",
     element: 
     <Suspense fallback={<Loader />}>
       <Login />
@@ -40,26 +34,22 @@ const router = createBrowserRouter([
     ,
   },
   {
-    path: "/react-vite-supreme/admin",
+    path: "/admin",
     element: <Admin/>,
     
     children: [
       {
-        path: "/react-vite-supreme/admin", 
-        element: <Navigate to="/react-vite-supreme/admin/dashboard/" />, 
+        path: "/admin", 
+        element: <Navigate to="/admin/dashboard/" />, 
       },
       {
-        path: "/react-vite-supreme/admin/dashboard/",
+        path: "/admin/dashboard/",
         element: <>
         <Suspense fallback={<Loader />}>
           <Page2 />
         </Suspense>
       </>,
       },
-      
-
-
-
       {
         path: "*",
         element: <NotFound />,
