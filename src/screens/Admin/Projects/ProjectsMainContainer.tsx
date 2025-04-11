@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AddProjectSection from './components/AddProjectSection';
 import ProjectList from './components/ProjectList';
 import ProjectDetails from './components/ProjectDetails'; // You'll need to create this component
+import { getAllProjects } from '@/services/projects';
 
 // Define Project interface (same as in ProjectList)
 interface Project {
@@ -10,12 +11,16 @@ interface Project {
     image: string;
     amount: string;
     duration: string;
+    about: string;
+    duration_start: string; // Add missing property
+    duration_end: string;   // Add missing property
 }
 
 const ProjectsMainContainer = () => {
+    const [projects, setProjects] = useState<Project[]>([]);
     const [isAddMode, setIsAddMode] = useState(false);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
+    const [token, setToken] = useState<string | null>(null); // Token state
     const handleAddProject = () => {
         setIsAddMode(true);
         setSelectedProject(null); // Clear any selected project when switching to add mode
@@ -28,6 +33,19 @@ const ProjectsMainContainer = () => {
 
     // Determine current view mode
     const viewingProject = selectedProject !== null;
+
+    useEffect(() => {
+        getAllProjects()
+            .then((projects) => {
+                setProjects(projects);
+            })
+            .catch((error) => {
+                console.error('Error fetching projects:', error);
+            });
+    }, []);
+
+
+    console.log(projects);
 
     return (
         <div className="relative h-full">
@@ -75,7 +93,7 @@ const ProjectsMainContainer = () => {
             {!isAddMode && !viewingProject && (
                 <button
                     onClick={handleAddProject}
-                    className="fixed bottom-8 right-8 w-14 h-14 bg-primary hover:bg-green-300 text-white rounded-full shadow-lg flex items-center justify-center transition-colors duration-300 focus:outline-none"
+                    className="fixed bottom-20 right-8 w-14 h-14 bg-primary hover:bg-green-300 text-white rounded-full shadow-lg flex items-center justify-center transition-colors duration-300 focus:outline-none"
                     aria-label="Add project"
                 >
                     <span className="text-2xl font-bold">+</span>

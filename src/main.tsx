@@ -33,7 +33,7 @@ const DashboardMainContainer = lazy(() =>
 );
 
 const ProjectsMainContainer = lazy(() =>
-  wait(1300).then(() => import("./screens/Admin/Projects/ProjectsMainContainer.tsx"))
+  import("./screens/Admin/Projects/ProjectsMainContainer.tsx")
 );
 
 const EmployeeMainContainer = lazy(() =>
