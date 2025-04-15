@@ -92,8 +92,8 @@ function DialogEdit({ item, projects, employees, updatePayrollItem }: DialogEdit
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant='outline' className='bg-green-100 text-green-800 rounded-md p-2'>
-            <LucideEdit2 />
+          <Button variant='outline' className='bg-green-100 text-green-800 rounded-md px-4 py-2 h-8 w-10'>
+            <LucideEdit2 className='md:h-5 md:w-5 md:rounded-full'/>
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
