@@ -1,4 +1,6 @@
+import { createProject } from '@/services/projects';
 import React, { useState } from 'react'
+import Swal from 'sweetalert2';
 const AddProjectSection = () => {
     // Project form state
     const [formData, setFormData] = useState({
@@ -75,10 +77,52 @@ const AddProjectSection = () => {
                 : null
         };
 
-        console.log('Form submitted:', submitData);
-        // Add your API call or state management logic here
+        // Show loading state if desired
+        // setIsLoading(true);
+
+        createProject(submitData)
+            .then((response) => {
+                console.log('Project created successfully:', response);
+
+                // Reset form
+                setFormData({
+                    projectName: '',
+                    projectAmount: '',
+                    startDate: '',
+                    endDate: '',
+                    aboutProject: ''
+                });
+                setEmployees([]);
+
+                // Show success message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Project Created!',
+                    text: 'The project has been successfully created.',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                // Optionally redirect or update UI
+                // navigate('/admin/projects');
+            })
+            .catch((error) => {
+                console.error('Error creating project:', error);
+
+                // Show error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'Failed to create project. Please try again.',
+                });
+            })
+            .finally(() => {
+                // setIsLoading(false);
+            });
     };
 
+
+    
     return (
         <div className="max-w-2xl mx-auto">
             <h2 className="text-2xl font-bold mb-6">Add New Project</h2>

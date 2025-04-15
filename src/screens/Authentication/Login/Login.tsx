@@ -50,97 +50,100 @@ function Login() {
       <div className="flex h-screen bg-background">
         {/* Carousel Section */}
         {/* Carousel Section */}
-<div className="w-[70vw] lg:w-1/2 bg-card">
-  <Slider {...carouselSettings} className="h-screen">
-    <div className="!flex h-[80vh] items-center justify-center flex-col gap-4">
-      <h2 className="text-3xl font-bold text-primary">Welcome to eProjex</h2>
-      <p className="text-muted-foreground text-lg">Manage your projects efficiently</p>
-    </div>
-    <div className="!flex h-[80vh] items-center justify-center flex-col gap-4">
-      <h2 className="text-3xl font-bold text-primary">Collaborate Seamlessly</h2>
-      <p className="text-muted-foreground text-lg">Work together with your team</p>
-    </div>
-    <div className="!flex h-[80vh] items-center justify-center flex-col gap-4">
-      <h2 className="text-3xl font-bold text-primary">Track Progress</h2>
-      <p className="text-muted-foreground text-lg">Monitor your project's development</p>
-    </div>
-  </Slider>
-</div>
+        <div className="w-[70vw] lg:w-1/2 bg-card">
+          <Slider {...carouselSettings} className="h-screen">
+            <div className="!flex h-[80vh] items-center justify-center flex-col gap-4">
+              <h2 className="text-3xl font-bold text-primary">Welcome to eProjex</h2>
+              <p className="text-muted-foreground text-lg">Manage your projects efficiently</p>
+            </div>
+            <div className="!flex h-[80vh] items-center justify-center flex-col gap-4">
+              <h2 className="text-3xl font-bold text-primary">Collaborate Seamlessly</h2>
+              <p className="text-muted-foreground text-lg">Work together with your team</p>
+            </div>
+            <div className="!flex h-[80vh] items-center justify-center flex-col gap-4">
+              <h2 className="text-3xl font-bold text-primary">Track Progress</h2>
+              <p className="text-muted-foreground text-lg">Monitor your project's development</p>
+            </div>
+          </Slider>
+        </div>
 
         {/* Login Form Section */}
         <div className=" w-[30vw] border border-border lg:w-1/2 flex flex-col items-center justify-center p-8">
           <div className="w-full max-w-md space-y-6">
             <div className=" fixed top-0 right-0 p-4">
-                <ModeToggle  />
+              <ModeToggle />
             </div>
-            
-            
+
+
             <div className="space-y-2 text-center">
               <h1 className="text-3xl font-bold text-primary">Welcome to eProjEx</h1>
               <p className="text-muted-foreground">Enter your credentials to login</p>
             </div>
 
-            <form onSubmit={(e)=>{
+            <form onSubmit={(e) => {
 
-                e.preventDefault()
-                setIsLoading(true)
-                // Handle login logic here
+              e.preventDefault()
+              setIsLoading(true)
+              // Handle login logic here
 
-                const timeoutId = setTimeout(() => {
-                    setIsLoading(false)
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Request Timeout',
-                      text: 'The server is taking too long to respond. Please try again.',
-                      
-                    })
-                }, 5000)
+              const timeoutId = setTimeout(() => {
+                setIsLoading(false)
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Request Timeout',
+                  text: 'The server is taking too long to respond. Please try again.',
 
-                axios.post('token/login/',data).then((e) => {
+                })
+              }, 5000)
+
+              axios.post('token/login/', data).then((e) => {
+
+               
                   const token = e.data.auth_token;
                   localStorage.setItem('eprojex_auth_token', token);
-                    axios.get('users/me/', {
-                      headers: {
-                          Authorization: `Token ${e.data.auth_token}`,
-                      },
-                  }).then((response) => {
-                            setIsLoading(false)
-                            setData({
-                                email: "",password: "" })
-                            
-                            Swal.fire({
-                              icon: 'success',
-                              title: 'Login Successful!',
-                              text: `Welcome back! ${response.data.first_name }`,
-                              showConfirmButton: false,
-                              timer: 1500,
-                            })
-                            navigate('/react-vite-supreme/admin')
-
-
-                            
-                            // Add your navigation logic here
-                        })
-                    
-
-                }).catch((error) => {
-                    console.error('There was an error!', error)
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Login Failed',
-                      text: error.response?.data?.non_field_errors?.[0] || 'Invalid credentials. Please try again.',
-                      timer: 1500,
-                      showConfirmButton: false,
-                    })
+                axios.get('users/me/', {
+                  headers: {
+                    Authorization: `Token ${token}`,
+                  },
+                }).then((response) => {
+                  setIsLoading(false)
+                  setData({
+                    email: "", password: ""
                   })
-                    .finally(() => {
-                        clearTimeout(timeoutId) // Clear the timeout if request completes
-                        setIsLoading(false)
-                      })
 
-                console.log("Login form submitted")
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful!',
+                    text: `Welcome back! ${response.data.first_name}`,
+                    showConfirmButton: false,
+                    timer: 1500,
+                  })
+                  navigate('/react-vite-supreme/admin')
 
-            }}   className="space-y-4">
+
+
+                  // Add your navigation logic here
+                })
+
+
+              }).catch((error) => {
+                console.error('There was an error!', error)
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Login Failed',
+                  text: error.response?.data?.non_field_errors?.[0] || 'Invalid credentials. Please try again.',
+                  timer: 1500,
+                  showConfirmButton: false,
+                })
+              })
+                .finally(() => {
+                  clearTimeout(timeoutId) // Clear the timeout if request completes
+                  setIsLoading(false)
+                })
+
+              console.log("Login form submitted")
+
+            }} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className=" text-secondary-foreground">Email</Label>
                 <Input
@@ -180,53 +183,53 @@ function Login() {
                 </div>
               </div>
               <p
-               
+
                 className="text-sm pt-1 hover:underline text-primary cursor-pointer"
               >
                 Forgot password?
               </p>
 
-              <Button 
-    type="submit" 
-    className="w-full" 
-    disabled={isLoading}
-  >
-    {isLoading ? (
-      <>
-        <svg
-          className="animate-spin -ml-1 mr-3 h-4 w-4"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
-        Logging in...
-      </>
-    ) : (
-      'Login'
-    )}
-  </Button>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    Logging in...
+                  </>
+                ) : (
+                  'Login'
+                )}
+              </Button>
             </form>
 
             <div className="text-center space-y-2">
-             
+
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{" "}
-                <a 
-                  href="#" 
+                <a
+                  href="#"
                   className="text-primary hover:underline"
                 >
                   Create account

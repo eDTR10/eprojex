@@ -1,16 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
-import App from './App.tsx'
+
 import './index.css'
 import { Suspense, lazy } from "react";
 
 import NotFound from "./screens/notFound";
 import Loader from './components/loader/loader.tsx';
 import Loaderx from './components/loader/screenLoader.tsx';
-const Page1 = lazy(() =>
-  wait(1300).then(() => import("./screens/page1.tsx"))
-);
+
 
 
 
@@ -33,7 +31,7 @@ const DashboardMainContainer = lazy(() =>
 );
 
 const ProjectsMainContainer = lazy(() =>
-  wait(1300).then(() => import("./screens/Admin/Projects/ProjectsMainContainer.tsx"))
+  import("./screens/Admin/Projects/ProjectsMainContainer.tsx")
 );
 
 const EmployeeMainContainer = lazy(() =>
