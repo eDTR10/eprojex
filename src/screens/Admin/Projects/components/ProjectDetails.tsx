@@ -33,7 +33,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
 
     // Parse budget amount (removing currency symbols if present)
     const totalBudget = parseFloat(String(project.total_budget).replace(/[^0-9.-]+/g, "")) || 0;
-
+    const [dynamicTotalBudget, setDynamicTotalBudget] = useState<number>(
+        parseFloat(String(project.total_budget).replace(/[^0-9.-]+/g, "")) || 0
+    );
     // State for expenses from API
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [showAddExpenseDialog, setShowAddExpenseDialog] = useState(false);
@@ -86,7 +88,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
 
 
     const totalExpenses = expenses.reduce((sum, expense: any) => sum + parseFloat(expense?.amount), 0);
-    const remainingBalance = totalBudget - totalExpenses;
+    const remainingBalance = dynamicTotalBudget - totalExpenses;
+    console.log(remainingBalance)
 
     // Fetch real expenses from the API
     useEffect(() => {
@@ -119,9 +122,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         datasets: [
             {
                 data: [totalExpenses, remainingBalance],
-                backgroundColor: ['red', 'green'],
-                borderColor: ['red', 'green'],
-                borderWidth: 1,
+                backgroundColor: ['#f7323a', 'green'],
+                borderColor: ['white', 'white'],
+                borderWidth: 2,
             },
         ],
     };
@@ -188,6 +191,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         }
     };
 
+    // Then update the handleAddBudget function
     const handleAddBudget = () => {
         if (!project?.id) return;
 
@@ -205,10 +209,19 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
             };
 
             addProjectBudget(budgetData)
-                .then(() => {
-                    // Optionally, you might need to refresh the project data here
-                    // For now, we'll just reload the page
-                    window.location.reload();
+                .then((createdBudget) => {
+                    // 1. Update the local budgets state with the new budget entry
+                    const newBudget = {
+                        ...budgetData,
+                        // Use the returned ID or generate one temporarily
+                        id: createdBudget?.id || Date.now()
+                    };
+
+                    setBudgets(prevBudgets => [...prevBudgets, newBudget]);
+
+                    // 2. Update the total budget by adding the new amount
+                    setDynamicTotalBudget(prevTotal => prevTotal + parsedAmount);
+
                     setShowAddBudgetDialog(false);
                     setIsAddingBudget(false);
 
@@ -227,7 +240,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
     return (
         <div className="container mx-auto px-4 relative">
             {/* Row 1: Basic project info in 2 columns */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-6">
                 <div className="flex items-start">
                     <div className="w-24 h-24 rounded-full overflow-hidden mr-4 shrink-0">
                         <img
@@ -241,22 +254,26 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                     </div>
                     <div>
                         <h2 className="text-2xl font-bold">{project.name}</h2>
-                        <p className="text-gray-600 mt-1">Budget: ₱{totalBudget.toLocaleString()}</p>
+                        <p className="text-gray-600 mt-1">Budget: ₱{dynamicTotalBudget.toLocaleString()}</p>
                         <p className="text-gray-600">
                             Duration: {formatDate(project.duration_start)} - {formatDate(project.duration_end)}
                         </p>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 md:grid-cols-1 gap-4">
                     <div className="bg-green-50 p-4 rounded-lg">
                         <h4 className="text-sm font-medium text-gray-600">Total Budget</h4>
-                        <p className="text-2xl font-bold">{totalBudget.toLocaleString()}</p>
+                        <p className="text-2xl font-bold">{formatMoney(dynamicTotalBudget.toLocaleString())}</p>
+                    </div>
+                    <div className="bg-red-50 p-4 rounded-lg">
+                        <h4 className="text-sm font-medium text-gray-600">Total Expenses</h4>
+                        <p className="text-2xl font-bold">{formatMoney(totalExpenses.toLocaleString())}</p>
                     </div>
                     <div className="bg-blue-50 p-4 rounded-lg">
                         <h4 className="text-sm font-medium text-gray-600">Remaining</h4>
                         <p className={`text-2xl font-bold ${remainingBalance < 0 ? 'text-red-600' : 'text-blue-600'}`}>
-                            {remainingBalance < 0 ? '-' : ''}₱{Math.abs(remainingBalance).toLocaleString()}
+                            {remainingBalance < 0 ? '-' : ''}{formatMoney(Math.abs(remainingBalance).toLocaleString())}
                         </p>
                         <p className="text-sm text-gray-500">
                             {Math.abs(Math.round((remainingBalance / totalBudget) * 100))}%
@@ -277,7 +294,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
             </div>
 
             {/* Row 3: Budget Distribution & Expenses in 2 columns */}
-            <div className="grid grid-cols-2 md:grid-cols-1 sm:grid-cols-1 gap-6 mb-24">
+            <div className="grid grid-cols-1 md:grid-cols-1 sm:grid-cols-1 gap-6 mb-24">
                 {/* Column 1: Budget Distribution Chart */}
                 <div className="bg-white shadow rounded-lg p-6">
                     <h3 className="text-lg font-medium mb-4">Budget Distribution</h3>
@@ -292,7 +309,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                         <div>
                             <h4 className="text-sm font-medium text-gray-600">Budget Utilization</h4>
                             <p className="text-xl font-bold">
-                                {Math.round((totalExpenses / totalBudget) * 100)}%
+                                {Math.round((totalExpenses / dynamicTotalBudget) * 100)}%
                             </p>
                         </div>
                     </div>
@@ -355,12 +372,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                                 </tbody>
                                 <tfoot>
                                     <tr className="bg-gray-50">
-                                        <td colSpan={3} className="px-4 py-2 text-sm font-medium text-gray-900">Total Expenses</td>
-                                        <td className="px-4 py-2 text-sm font-medium text-red-600 text-right">-{formatMoney(totalExpenses.toLocaleString())}</td>
+                                        <td colSpan={3} className="px-4 py-2 text-sm font-medium text-gray-900">Total Budget</td>
+                                        <td className="px-4 py-2 text-sm font-medium text-green-600 text-right">+{formatMoney(dynamicTotalBudget.toLocaleString())}</td>
                                     </tr>
                                     <tr className="bg-gray-50">
-                                        <td colSpan={3} className="px-4 py-2 text-sm font-medium text-gray-900">Total Budget</td>
-                                        <td className="px-4 py-2 text-sm font-medium text-green-600 text-right">+{formatMoney(totalBudget.toLocaleString())}</td>
+                                        <td colSpan={3} className="px-4 py-2 text-sm font-medium text-red-600">Total Expenses</td>
+                                        <td className="px-4 py-2 text-sm font-medium text-red-600 text-right">+{formatMoney(totalExpenses.toLocaleString())}</td>
                                     </tr>
                                     <tr className="bg-gray-50">
                                         <td colSpan={3} className="px-4 py-2 text-sm font-medium text-gray-900">Remaining Balance</td>
