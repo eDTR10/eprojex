@@ -10,6 +10,7 @@ interface Project {
   about: string;
   duration_start: string;
   duration_end: string;
+  total_budget: string;
 }
 
 // Create project interface
@@ -27,12 +28,20 @@ interface CreateProjectData {
   }>;
 }
 
-// API response interface
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
+export interface Budget {
+  name: string;
+  amount: number;
+  created_date: string;
+  proj_id: number;
 }
+
+
+// // API response interface
+// interface ApiResponse<T> {
+//   success: boolean;
+//   data: T;
+//   message?: string;
+// }
 
 export const getAllProjects = (): Promise<Project[]> => {
   const token = localStorage.getItem('eprojex_auth_token');
@@ -137,11 +146,66 @@ export const createProject = (projectData: CreateProjectData): Promise<Project> 
       });
   });
 };
-/**
- * Deletes a project by ID
- * @param projectId The ID of the project to delete
- * @returns Promise with the deletion result
- */
+
+export const getProjectBudgets = (projectId: number): Promise<Budget[]> => {
+  return new Promise((resolve, reject) => {
+    axios.get(`budget/all/${projectId}/`)
+      .then((response) => {
+        console.log('Get Project Budgets Response:', response.data);
+        
+        if (response.data && typeof response.data === 'object' && 'success' in response.data) {
+          if (response.data.success) {
+            resolve(response.data.data);
+          } else {
+            reject(new Error(response.data.message || 'Failed to fetch budgets'));
+          }
+        } else if (Array.isArray(response.data)) {
+          resolve(response.data);
+        } else {
+          console.error('Unexpected API response format:', response.data);
+          reject(new Error('Unexpected API response format'));
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching project budgets:', error);
+        reject(error);
+      });
+  });
+};
+
+
+export const addProjectBudget = ( budgetData: Budget): Promise<any> => {
+  const token = localStorage.getItem('eprojex_auth_token');
+  
+  if (!token) {
+    return Promise.reject(new Error('Authentication token not found'));
+  }
+  
+  return new Promise((resolve, reject) => {
+    axios.post(`budget/all/`, budgetData)
+      .then((response) => {
+        console.log('Add Budget Response:', response.data);
+        
+        if (response.data && typeof response.data === 'object' && 'success' in response.data) {
+          if (response.data.success) {
+            resolve(response.data.data);
+          } else {
+            reject(new Error(response.data.message || 'Failed to add budget'));
+          }
+        } else if (response.data && typeof response.data === 'object') {
+          resolve(response.data);
+        } else {
+          resolve(response.data || { success: true });
+        }
+      })
+      .catch((error) => {
+        console.error('Error adding project budget:', error);
+        reject(error);
+      });
+  });
+};
+
+
 export const deleteProject = (projectId: number): Promise<any> => {
   const token = localStorage.getItem('eprojex_auth_token');
   

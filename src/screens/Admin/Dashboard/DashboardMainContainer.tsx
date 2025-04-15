@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import {
     PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid,
     Tooltip, Legend, ResponsiveContainer
@@ -6,9 +6,8 @@ import {
 
 
 const DashboardMainContainer = () => {
-    const [activeProject, setActiveProject] = useState("");
-    const [isSidebarOpen, setSidebarOpen] = useState(true);
-    const [activeMenu, setActiveMenu] = useState("Projects");
+    // const [setActiveProject] = useState("");
+    // const [setActiveMenu] = useState("Projects");
 
     // Sample data for pie charts
     const pieData = [
@@ -38,14 +37,9 @@ const DashboardMainContainer = () => {
     const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
     // Toggle sidebar for mobile responsiveness
-    const toggleSidebar = () => {
-        setSidebarOpen(!isSidebarOpen);
-    };
+
 
     // Handle menu item click
-    const handleMenuClick = (menuItem: any) => {
-        setActiveMenu(menuItem);
-    };
 
 
     return (
@@ -55,7 +49,7 @@ const DashboardMainContainer = () => {
                 {/* eGov Project */}
                 <div
                     className="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col items-center cursor-pointer"
-                    onClick={() => setActiveProject("eGov")}
+
                 >
                     <div className="w-40 h-40">
                         <ResponsiveContainer width="100%" height="100%">
@@ -70,7 +64,7 @@ const DashboardMainContainer = () => {
                                     paddingAngle={5}
                                     dataKey="value"
                                 >
-                                    {pieData.map((entry, index) => (
+                                    {pieData.map((index: any) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
@@ -84,7 +78,7 @@ const DashboardMainContainer = () => {
                 {/* eLGU Project */}
                 <div
                     className="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col items-center cursor-pointer"
-                    onClick={() => setActiveProject("eLGU")}
+
                 >
                     <div className="w-40 h-40">
                         <ResponsiveContainer width="100%" height="100%">
@@ -99,7 +93,7 @@ const DashboardMainContainer = () => {
                                     paddingAngle={5}
                                     dataKey="value"
                                 >
-                                    {pieData.map((entry, index) => (
+                                    {pieData.map((index: any) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
@@ -113,7 +107,7 @@ const DashboardMainContainer = () => {
                 {/* Other Project */}
                 <div
                     className="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col items-center cursor-pointer"
-                    onClick={() => setActiveProject("Other")}
+
                 >
                     <div className="w-40 h-40">
                         <ResponsiveContainer width="100%" height="100%">
@@ -128,7 +122,7 @@ const DashboardMainContainer = () => {
                                     paddingAngle={5}
                                     dataKey="value"
                                 >
-                                    {pieData.map((entry, index) => (
+                                    {pieData.map((index: any) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
@@ -179,7 +173,7 @@ const DashboardMainContainer = () => {
                             <tr
                                 key={item.id}
                                 className="border-b hover:bg-gray-50 cursor-pointer transition-colors duration-150"
-                                onClick={() => setActiveProject(item.project)}
+
                             >
                                 <td className="py-3 px-4">{item.project}</td>
                                 <td className="py-3 px-4">{item.client}</td>

@@ -12,6 +12,7 @@ interface Project {
     duration: string;
     duration_start: string;
     duration_end: string;
+    total_budget: string;
 }
 
 // Add props for handling project selection

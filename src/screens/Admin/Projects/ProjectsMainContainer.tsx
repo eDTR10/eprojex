@@ -14,13 +14,13 @@ interface Project {
     about: string;
     duration_start: string; // Add missing property
     duration_end: string;   // Add missing property
+    total_budget: string;
 }
 
 const ProjectsMainContainer = () => {
     const [projects, setProjects] = useState<Project[]>([]);
     const [isAddMode, setIsAddMode] = useState(false);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-    const [token, setToken] = useState<string | null>(null); // Token state
     const handleAddProject = () => {
         setIsAddMode(true);
         setSelectedProject(null); // Clear any selected project when switching to add mode
