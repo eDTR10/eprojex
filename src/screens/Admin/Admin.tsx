@@ -9,7 +9,8 @@ import {
   Menu,
   X,
   ArrowUpCircle, 
-  ArrowDownCircle 
+  ArrowDownCircle, 
+  User2Icon
 } from "lucide-react"
 import { Link, Outlet, useLocation } from "react-router-dom"
 import { ModeToggle } from "@/components/mode-toggle";
@@ -81,16 +82,17 @@ function Admin() {
     },
     { label: "Projects", icon: <FolderKanban className="w-5 h-5" />, href: "/react-vite-supreme/admin/projects/" },
     { label: "Attendance", icon: <Clock className="w-5 h-5" />, href: "/react-vite-supreme/admin/attendance/" },
+    { label: "Employee", icon: <User2Icon className="w-5 h-5" />, href: "/react-vite-supreme/admin/employee/" },
     { label: "Settings", icon: <Settings className="w-5 h-5" />, href: "/react-vite-supreme/admin/setting/" },
   ];
 
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <div className="relative bg-background h-screen w-screen flex overflow-hidden">
 
-        <div className=" fixed top-0 right-0 p-4 z-50">
+        {/* <div className=" fixed top-0 right-0 p-4 z-50">
             <ModeToggle/>
-        </div>
+        </div> */}
         {/* Burger Menu Button */}
         <button 
           onClick={() => setIsOpen(!isOpen)}

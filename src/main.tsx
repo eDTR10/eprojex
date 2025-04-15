@@ -36,6 +36,10 @@ const ProjectsMainContainer= lazy(() =>
   wait(1300).then(() => import("./screens/Admin/Projects/ProjectsMainContainer.tsx"))
 );
 
+const EmployeeMainContainer= lazy(() =>
+  wait(1300).then(() => import("./screens/Admin/Employee/EmployeeMainContainer.tsx"))
+);
+
 const SettingMainContainer= lazy(() =>
   wait(1300).then(() => import("./screens/Admin/Setting/SettingMainContainer.tsx"))
 );
@@ -83,6 +87,14 @@ const router = createBrowserRouter([
         element: <>
         <Suspense fallback={<Loader />}>
           <AttendanceMainContainer />
+        </Suspense>
+      </>,
+      },
+      {
+        path: "/react-vite-supreme/admin/employee/",
+        element: <>
+        <Suspense fallback={<Loader />}>
+          <EmployeeMainContainer />
         </Suspense>
       </>,
       },
