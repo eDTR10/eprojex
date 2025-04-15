@@ -118,7 +118,7 @@ function Login() {
                     showConfirmButton: false,
                     timer: 1500,
                   })
-                  navigate('/react-vite-supreme/admin')
+                  navigate('/eprojex/admin')
 
 
 

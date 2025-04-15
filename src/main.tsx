@@ -49,7 +49,7 @@ const AttendanceMainContainer = lazy(() =>
 
 const router = createBrowserRouter([
   {
-    path: "/react-vite-supreme",
+    path: "/eprojex",
     element:
       <Suspense fallback={<Loaderx />}>
         <Login />
@@ -57,16 +57,16 @@ const router = createBrowserRouter([
     ,
   },
   {
-    path: "/react-vite-supreme/admin",
+    path: "/eprojex/admin",
     element: <Admin />,
 
     children: [
       {
-        path: "/react-vite-supreme/admin",
-        element: <Navigate to="/react-vite-supreme/admin/dashboard/" />,
+        path: "/eprojex/admin",
+        element: <Navigate to="/eprojex/admin/dashboard/" />,
       },
       {
-        path: "/react-vite-supreme/admin/dashboard/",
+        path: "/eprojex/admin/dashboard/",
         element: <>
           <Suspense fallback={<Loader />}>
             <DashboardMainContainer />
@@ -74,7 +74,7 @@ const router = createBrowserRouter([
         </>,
       },
       {
-        path: "/react-vite-supreme/admin/projects/",
+        path: "/eprojex/admin/projects/",
         element: <>
           <Suspense fallback={<Loader />}>
             <ProjectsMainContainer />
@@ -82,7 +82,7 @@ const router = createBrowserRouter([
         </>,
       },
       {
-        path: "/react-vite-supreme/admin/employees/",
+        path: "/eprojex/admin/employees/",
         element: <>
           <Suspense fallback={<Loader />}>
             <EmployeeMainContainer />
@@ -90,7 +90,7 @@ const router = createBrowserRouter([
         </>,
       },
       {
-        path: "/react-vite-supreme/admin/attendance/",
+        path: "/eprojex/admin/attendance/",
         element: <>
           <Suspense fallback={<Loader />}>
             <AttendanceMainContainer />
@@ -98,7 +98,7 @@ const router = createBrowserRouter([
         </>,
       },
       {
-        path: "/react-vite-supreme/admin/employee/",
+        path: "/eprojex/admin/employee/",
         element: <>
         <Suspense fallback={<Loader />}>
           <EmployeeMainContainer />
@@ -106,7 +106,7 @@ const router = createBrowserRouter([
       </>,
       },
       {
-        path: "/react-vite-supreme/admin/setting/",
+        path: "/eprojex/admin/setting/",
         element: <>
           <Suspense fallback={<Loader />}>
             <SettingMainContainer />
