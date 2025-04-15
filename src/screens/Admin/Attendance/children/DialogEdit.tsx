@@ -26,7 +26,7 @@ function DialogEdit({ item, projects, employees, updatePayrollItem }: DialogEdit
   });
   const [dateStart, setDateStart] = useState(item.date_start);
   const [dateEnd, setDateEnd] = useState(item.date_end);
-  const [calculatedSalary, setCalculatedSalary] = useState('0.00');
+  const [calculatedSalary, setCalculatedSalary] = useState(item.salary);
 
   useEffect(() => {
     calculateSalary();
@@ -82,8 +82,6 @@ function DialogEdit({ item, projects, employees, updatePayrollItem }: DialogEdit
         timerProgressBar: true,
       });
 
-      // Close the dialog
-      
       console.log('Item updated successfully.');
     } catch (error) {
       console.error('Error updating item:', error);
@@ -94,7 +92,7 @@ function DialogEdit({ item, projects, employees, updatePayrollItem }: DialogEdit
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant='outline' className='flex items-center h-10 w-10 gap-2 bg-green-600 text-white hover:bg-green-500 hover:text-white'>
+          <Button variant='outline' className='bg-green-100 text-green-800 rounded-md p-2'>
             <LucideEdit2 />
           </Button>
         </DialogTrigger>
@@ -162,14 +160,14 @@ function DialogEdit({ item, projects, employees, updatePayrollItem }: DialogEdit
               <Label htmlFor="rate" className="text-start">
                 Rate:
               </Label>
-              <Input className='col-span-3' type="text" value={selectedRate} readOnly />
+              <Input className='col-span-3' type="text" value={selectedRate} disabled />
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="salary" className="text-start">
                 Salary:
               </Label>
-              <Input className='col-span-3' type="text" value={calculatedSalary} readOnly />
+              <Input className='col-span-3' type="text" value={calculatedSalary} onChange={(e) => setCalculatedSalary(e.target.value)} />
             </div>
           </div>
           <DialogFooter>

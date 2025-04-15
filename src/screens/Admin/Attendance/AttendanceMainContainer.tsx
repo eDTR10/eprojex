@@ -7,7 +7,7 @@ import axios from "../../../plugin/axios";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
-import DialogAttendance from './children/DialogAttendance';
+import DialogAttendance from './children/DialogAddPayroll';
 import DialogEdit from './children/DialogEdit';
 import { Employee, Project } from '../../../helper/type';
 import Swal from 'sweetalert2';
@@ -287,50 +287,54 @@ const AttendanceMainContainer = () => {
           <div className="text-lg font-bold">{totalSalary}</div>
         </div>
 
-        <table className="min-w-full">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="py-2 px-4 text-left">Project</th>
-              <th className="py-2 px-4 text-left">Employee</th>
-              <th className="py-2 px-4 text-left">Date From</th>
-              <th className="py-2 px-4 text-left">Date To</th>
-              <th className="py-2 px-4 text-left">Salary</th>
-              <th className="py-2 px-4 text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.length === 0 ? (
-              <tr>
-                <td colSpan={6} className="py-3 px-4 text-center text-red-500">
-                  No record found
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr className="bg-gray-100">
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employee</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date From</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date To</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Salary</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
               </tr>
-            ) : (
-              filteredData.map((item, index) => (
-                <tr key={index}>
-                  <td className="py-3 px-4 uppercase">{item.project}</td>
-                  <td className="py-3 px-4 uppercase">{item.name}</td>
-                  <td className="py-3 px-4">{formatDate(item.date_start)}</td>
-                  <td className="py-3 px-4">{formatDate(item.date_end)}</td>
-                  <td className="py-3 px-4">{item.salary}</td>
-                  <td>
-                    <div className='flex flex-row gap-2'>
-                      <DialogEdit
-                        item={item}
-                        projects={projects}
-                        employees={employees}
-                        updatePayrollItem={updatePayrollItem}
-                      />
-                      <Button onClick={() => handleDelete(item.id)} className='flex h-10 w-10 items-center gap-2 bg-red-600 text-white hover:bg-red-500 hover:text-white'>
-                        <LucideTrash2 />
-                      </Button>
-                    </div>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-3 px-4 text-center text-red-500">
+                    No record found
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                filteredData.map((item, index) => (
+                  <tr key={index}>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 uppercase">{item.project}</td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 uppercase">{item.name}</td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 uppercase">{formatDate(item.date_start)}</td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 uppercase">{formatDate(item.date_end)}</td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 uppercase">PHP {item.salary}</td>
+                    <td>
+                      <div className='flex flex-row gap-2'>
+                        <DialogEdit
+                          item={item}
+                          projects={projects}
+                          employees={employees}
+                          updatePayrollItem={updatePayrollItem}
+                        />
+                        <Button onClick={() => handleDelete(item.id)} className='bg-red-400 hover:bg-red-500 text-white rounded-md p-2'>
+                          <LucideTrash2 />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+
+        </div>
+        
       </div>
 
       <div className='sticky bottom-20 right-5 flex justify-end items-center'>

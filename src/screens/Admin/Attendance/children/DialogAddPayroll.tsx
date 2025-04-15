@@ -126,12 +126,12 @@ function DialogAttendance({ employees, projects, fetchPayroll }: DialogAttendanc
   };
 
   return (
-    <div className='sticky bottom-20 right-5 flex justify-end items-center'>
+    <div className='fixed bottom-20 right-8 w-14 h-14 bg-primary hover:bg-green-300 text-white rounded-full shadow-lg flex items-center justify-center transition-colors duration-300 focus:outline-none'>
       <div className='flex items-center gap-2'>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger>
             <button className="p-2" onClick={() => setOpen(true)}>
-              <LucidePlusCircle className='h-16 w-16 text-white bg-primary rounded-full' />
+              <span className="text-2xl font-bold">+</span>
             </button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[600px]">
