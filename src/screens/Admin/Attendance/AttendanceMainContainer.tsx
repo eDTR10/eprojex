@@ -178,7 +178,7 @@ const AttendanceMainContainer = () => {
 
   return (
     <div className='flex flex-col gap-4 p-3 mt-16'>
-      <h2 className="text-xl font-bold mb-6">List of Payroll</h2>
+      <h2 className="text-xl font-bold mb-6 md:mt-5">List of Payroll</h2>
       <div className="bg-white p-4 rounded-lg shadow-md overflow-x-auto">
         <div className='grid grid-cols-4 gap-4 mb-5 md:grid-cols-2'>
           <div>
@@ -208,7 +208,7 @@ const AttendanceMainContainer = () => {
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className="w-full uppercase flex justify-between text-left"
+                  className="w-full uppercase flex justify-between text-left text-sm font-medium text-gray-900"
                 >
                   {value
                     ? (() => {
@@ -221,7 +221,7 @@ const AttendanceMainContainer = () => {
               </PopoverTrigger>
               <PopoverContent className="p-0">
                 <Command>
-                  <CommandInput placeholder="Search Employee..." className="h-9" />
+                  <CommandInput placeholder="Search Employee..." className="text-sm font-medium text-gray-900" />
                   <CommandList>
                     <CommandEmpty>No employee found.</CommandEmpty>
                     <CommandGroup className='uppercase'>
@@ -322,8 +322,9 @@ const AttendanceMainContainer = () => {
                           employees={employees}
                           updatePayrollItem={updatePayrollItem}
                         />
-                        <Button onClick={() => handleDelete(item.id)} className='bg-red-400 hover:bg-red-500 text-white rounded-md px-4 py-2 h-8 w-10'>
-                          <LucideTrash2 />
+                        <Button onClick={() => handleDelete(item.id)} className='bg-red-400 hover:bg-red-500 text-white rounded-md px-4 py-2 md:items-center md:flex md:justify-center h-8 w-10'>
+                          <LucideTrash2 className='md:h-5 md:w-5 md:rounded-full' />
+
                         </Button>
                       </div>
                     </td>
