@@ -8,12 +8,12 @@ import {
   LogOut,
   Menu,
   X,
-  ArrowUpCircle,
-  ArrowDownCircle,
-  User
+  ArrowUpCircle, 
+  ArrowDownCircle, 
+  User2Icon
 } from "lucide-react"
 import { Link, Outlet, useLocation } from "react-router-dom"
-import { ModeToggle } from "@/components/mode-toggle";
+// import { ModeToggle } from "@/components/mode-toggle";
 
 function Admin() {
   const location = useLocation();
@@ -68,8 +68,8 @@ function Admin() {
   // Update the helper function to check active routes more precisely
   const isActiveRoute = (path: string) => {
     // Special case for dashboard since it's the main route
-    if (path === '/react-vite-supreme/admin/dashboard/') {
-      return location.pathname === '/react-vite-supreme/admin/dashboard/' || location.pathname === '/react-vite-supreme/admin/dashboard//';
+    if (path === '/eprojex/admin/dashboard/') {
+      return location.pathname === '/eprojex/admin/dashboard/' || location.pathname === '/eprojex/admin/dashboard//';
     }
     return location.pathname.startsWith(path);
   };
@@ -78,21 +78,21 @@ function Admin() {
     {
       label: "Dashboard",
       icon: <LayoutDashboard className="w-5 h-5" />,
-      href: "/react-vite-supreme/admin/dashboard/"
+      href: "/eprojex/admin/dashboard/"
     },
-    { label: "Projects", icon: <FolderKanban className="w-5 h-5" />, href: "/react-vite-supreme/admin/projects/" },
-    { label: "Attendance", icon: <Clock className="w-5 h-5" />, href: "/react-vite-supreme/admin/attendance/" },
-    { label: "Employee List", icon: <User className="w-5 h-5" />, href: "/react-vite-supreme/admin/employees/" },
-    { label: "Settings", icon: <Settings className="w-5 h-5" />, href: "/react-vite-supreme/admin/setting/" },
+    { label: "Projects", icon: <FolderKanban className="w-5 h-5" />, href: "/eprojex/admin/projects/" },
+    { label: "Attendance", icon: <Clock className="w-5 h-5" />, href: "/eprojex/admin/attendance/" },
+    { label: "Employee", icon: <User2Icon className="w-5 h-5" />, href: "/eprojex/admin/employee/" },
+    { label: "Settings", icon: <Settings className="w-5 h-5" />, href: "/eprojex/admin/setting/" },
   ];
 
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <div className="relative bg-background h-screen w-screen flex overflow-hidden">
 
-        <div className=" fixed top-0 right-0 p-4 z-50">
-          <ModeToggle />
-        </div>
+        {/* <div className=" fixed top-0 right-0 p-4 z-50">
+            <ModeToggle/>
+        </div> */}
         {/* Burger Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -135,7 +135,7 @@ function Admin() {
 
           {/* Logout Button */}
           <div className="absolute bottom-8 left-0 right-0 px-4">
-            <Link to="/react-vite-supreme" className="w-full flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-red-500 hover:text-white rounded-lg transition-colors">
+            <Link to="/eprojex" className="w-full flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-red-500 hover:text-white rounded-lg transition-colors">
               <LogOut className="w-5 h-5" />
               <span>Logout</span>
             </Link>

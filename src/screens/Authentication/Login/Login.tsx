@@ -98,9 +98,9 @@ function Login() {
 
               axios.post('token/login/', data).then((e) => {
 
-                const token = e.data.auth_token;
-                localStorage.setItem('eprojex_auth_token', token);
-
+               
+                  const token = e.data.auth_token;
+                  localStorage.setItem('eprojex_auth_token', token);
                 axios.get('users/me/', {
                   headers: {
                     Authorization: `Token ${token}`,
@@ -118,7 +118,7 @@ function Login() {
                     showConfirmButton: false,
                     timer: 1500,
                   })
-                  navigate('/react-vite-supreme/admin')
+                  navigate('/eprojex/admin')
 
 
 
