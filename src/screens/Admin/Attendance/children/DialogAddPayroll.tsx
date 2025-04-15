@@ -4,7 +4,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LucidePlusCircle } from "lucide-react";
 import { Employee, Project } from "../../../../helper/type"; // Adjust the path based on your project structure
 import Swal from 'sweetalert2';
 
