@@ -12,7 +12,16 @@ interface Project {
   duration_end: string;
   total_budget: string;
 }
-
+interface UpdateProjectData {
+  id: number;
+  name?: string;
+  image?: string;
+  amount?: string;
+  duration_start?: string;
+  duration_end?: string;
+  about?: string;
+  total_budget?: string;
+}
 // Create project interface
 interface CreateProjectData {
   projectName: string;
@@ -206,6 +215,57 @@ export const addProjectBudget = ( budgetData: Budget): Promise<any> => {
 };
 
 
+/**
+ * Updates an existing project
+ * @param projectData The project data to update
+ * @returns Promise with the updated project
+ */
+export const updateProject = (projectData: UpdateProjectData): Promise<Project> => {
+  const token = localStorage.getItem('eprojex_auth_token');
+  
+  if (!token) {
+    return Promise.reject(new Error('Authentication token not found'));
+  }
+  
+  // Extract the ID and remove it from the data to be sent
+  const { id, ...updateData } = projectData;
+  
+  return new Promise((resolve, reject) => {
+    axios.put(`project/${id}/`, updateData)
+      .then((response) => {
+        // Log the response for debugging
+        console.log('Update Project Response:', response.data);
+        
+        // Case 1: If API returns { success: true, data: {...} } format
+        if (response.data && typeof response.data === 'object' && 'success' in response.data) {
+          if (response.data.success) {
+            resolve(response.data.data);
+          } else {
+            reject(new Error(response.data.message || 'Failed to update project'));
+          }
+        }
+        // Case 2: If API directly returns the updated project object
+        else if (response.data && typeof response.data === 'object') {
+          resolve(response.data);
+        }
+        // Case 3: If API returns some other success indication
+        else {
+          // Just resolve with whatever we got since we received a 2xx status
+          resolve(response.data || { success: true });
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating project:', error);
+        reject(error);
+      });
+  });
+};
+
+/**
+ * Deletes a project by ID
+ * @param projectId The ID of the project to delete
+ * @returns Promise with the deletion result
+ */
 export const deleteProject = (projectId: number): Promise<any> => {
   const token = localStorage.getItem('eprojex_auth_token');
   
@@ -214,21 +274,27 @@ export const deleteProject = (projectId: number): Promise<any> => {
   }
   
   return new Promise((resolve, reject) => {
-    axios.delete(`project/all/${projectId}`, {
-      headers: {
-        Authorization: `Token ${token}`
-      }
-    })
-    .then((response) => {
-      if (response.data.success) {
-        resolve(response.data.data);
-      } else {
-        reject(new Error(response.data.message || 'Failed to delete project'));
-      }
-    })
-    .catch((error) => {
-      console.error('Error deleting project:', error);
-      reject(error);
-    });
+    axios.delete(`project/${projectId}/`)
+      .then((response) => {
+        console.log('Delete Project Response:', response.data);
+        
+        // Case 1: If API returns { success: true, data: {...} } format
+        if (response.data && typeof response.data === 'object' && 'success' in response.data) {
+          if (response.data.success) {
+            resolve(response.data.data);
+          } else {
+            reject(new Error(response.data.message || 'Failed to delete project'));
+          }
+        }
+        // Case 2: If API returns empty response or other success indication
+        else {
+          // Just resolve with whatever we got since we received a 2xx status
+          resolve(response.data || { success: true });
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting project:', error);
+        reject(error);
+      });
   });
 };

@@ -261,9 +261,13 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-3 md:grid-cols-1 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
                     <div className="bg-green-50 p-4 rounded-lg">
-                        <h4 className="text-sm font-medium text-gray-600">Total Budget</h4>
+                        <h4 className="text-sm font-medium text-gray-600">Total Added Budget</h4>
+                        <p className="text-2xl font-bold">{formatMoney(project.amount.toLocaleString())}</p>
+                    </div>
+                    <div className="bg-green-50 p-4 rounded-lg">
+                        <h4 className="text-sm font-medium text-gray-600">Total Added Budget</h4>
                         <p className="text-2xl font-bold">{formatMoney(dynamicTotalBudget.toLocaleString())}</p>
                     </div>
                     <div className="bg-red-50 p-4 rounded-lg">
@@ -365,7 +369,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                                             <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{formatDate(entry.date)}</td>
                                             <td className={`px-4 py-2 text-sm font-medium text-right ${entry.type === 'expense' ? 'text-red-600' : 'text-green-600'
                                                 }`}>
-                                                {entry.type === 'expense' ? '-' : '+'}₱{entry.amount.toLocaleString()}
+                                                {entry.type === 'expense' ? '-' : '+'}{formatMoney(entry.amount.toLocaleString())}
                                             </td>
                                         </tr>
                                     ))}
