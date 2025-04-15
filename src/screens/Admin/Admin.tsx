@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { ThemeProvider } from "@/components/theme-provider"
-import { 
-  LayoutDashboard, 
-  FolderKanban, 
-  Clock, 
-  Settings, 
+import {
+  LayoutDashboard,
+  FolderKanban,
+  Clock,
+  Settings,
   LogOut,
   Menu,
   X,
@@ -13,7 +13,7 @@ import {
   User2Icon
 } from "lucide-react"
 import { Link, Outlet, useLocation } from "react-router-dom"
-import { ModeToggle } from "@/components/mode-toggle";
+// import { ModeToggle } from "@/components/mode-toggle";
 
 function Admin() {
   const location = useLocation();
@@ -42,7 +42,7 @@ function Admin() {
       const scrollTop = target.scrollTop;
       const scrollHeight = target.scrollHeight;
       const clientHeight = target.clientHeight;
-      
+
       const isBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight - 10;
       setIsAtBottom(isBottom);
     };
@@ -75,10 +75,10 @@ function Admin() {
   };
 
   const navItems = [
-    { 
-      label: "Dashboard", 
-      icon: <LayoutDashboard className="w-5 h-5" />, 
-      href: "/react-vite-supreme/admin/dashboard/" 
+    {
+      label: "Dashboard",
+      icon: <LayoutDashboard className="w-5 h-5" />,
+      href: "/react-vite-supreme/admin/dashboard/"
     },
     { label: "Projects", icon: <FolderKanban className="w-5 h-5" />, href: "/react-vite-supreme/admin/projects/" },
     { label: "Attendance", icon: <Clock className="w-5 h-5" />, href: "/react-vite-supreme/admin/attendance/" },
@@ -94,7 +94,7 @@ function Admin() {
             <ModeToggle/>
         </div> */}
         {/* Burger Menu Button */}
-        <button 
+        <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:block hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-primary text-white"
         >
@@ -123,7 +123,7 @@ function Admin() {
                   flex items-center gap-3 px-4 py-3 rounded-lg
                   transition-colors duration-200
                   ${isActiveRoute(item.href)
-                    ? ' bg-slate-800 text-white font-medium' 
+                    ? ' bg-slate-800 text-white font-medium'
                     : 'text-white/70 hover:bg-white/10 hover:text-white'}
                 `}
               >
@@ -148,14 +148,14 @@ function Admin() {
           ${isOpen ? '' : 'ml-0'}
           z-30 min-h-[300px] flex flex-col gap-2 overflow-y-scroll relative
         `}
-        onClick={() => {
-          if (window.innerWidth <= 767) {
-            setIsOpen(false)
-          }
-        }}
+          onClick={() => {
+            if (window.innerWidth <= 767) {
+              setIsOpen(false)
+            }
+          }}
         >
           <Outlet />
-          
+
           {/* Scroll Button */}
           <button
             onClick={handleScroll}
