@@ -97,6 +97,8 @@ function Login() {
                 }, 5000)
 
                 axios.post('token/login/',data).then((e) => {
+                  const token = e.data.auth_token;
+                  localStorage.setItem('eprojex_auth_token', token);
                     axios.get('users/me/', {
                       headers: {
                           Authorization: `Token ${e.data.auth_token}`,

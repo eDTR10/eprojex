@@ -81,7 +81,7 @@ function Admin() {
       href: "/react-vite-supreme/admin/dashboard/"
     },
     { label: "Projects", icon: <FolderKanban className="w-5 h-5" />, href: "/react-vite-supreme/admin/projects/" },
-    { label: "Attendance", icon: <Clock className="w-5 h-5" />, href: "/react-vite-supreme/admin/attendance/" },
+    { label: "Payroll", icon: <Clock className="w-5 h-5" />, href: "/react-vite-supreme/admin/attendance/" },
     { label: "Employee List", icon: <User className="w-5 h-5" />, href: "/react-vite-supreme/admin/employees/" },
     { label: "Settings", icon: <Settings className="w-5 h-5" />, href: "/react-vite-supreme/admin/setting/" },
   ];
