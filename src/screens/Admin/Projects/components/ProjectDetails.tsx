@@ -1,5 +1,5 @@
 import { formatDate } from '@/helper/date';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { Plus } from 'lucide-react';
@@ -51,6 +51,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
     const [newBudgetAmount, setNewBudgetAmount] = useState('');
     const [isAddingBudget, setIsAddingBudget] = useState(false);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
     // Updated state to match API fields
     const [newExpense, setNewExpense] = useState({
         item: '',
@@ -70,22 +73,38 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
     };
 
     // Add a computed value for combined log entries
-    const logEntries: LogEntry[] = [
-        ...expenses.map(expense => ({
-            type: 'expense' as const,
-            title: expense.item,
-            category: expense.category,
-            date: expense.date,
-            amount: expense.amount
-        })),
-        ...budgets.map(budget => ({
-            type: 'budget' as const,
-            title: budget.name,
-            date: budget.created_date,
-            amount: budget.amount
-        }))
-    ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());  // Sort by date, newest first
+    const logEntries = useMemo(() => {
+        return [
+            ...expenses.map(expense => ({
+                id: expense.id, // Make sure each entry has a unique ID
+                type: 'expense' as const,
+                title: expense.item,
+                category: expense.category,
+                date: expense.date,
+                amount: expense.amount
+            })),
+            ...budgets.map((budget: any) => ({
+                id: budget.id || `budget-${budget.name}-${budget.created_date}`, // Ensure uniqueness
+                type: 'budget' as const,
+                title: budget.name,
+                date: budget.created_date,
+                amount: budget.amount
+            }))
+        ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    }, [expenses, budgets]); // Only recalculate when the source data changes
 
+
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = logEntries.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(logEntries.length / itemsPerPage);
+
+    const paginate = (pageNumber: number) => {
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
 
     const totalExpenses = expenses.reduce((sum, expense: any) => sum + parseFloat(expense?.amount), 0);
     const remainingBalance = dynamicTotalBudget - totalExpenses;
@@ -351,7 +370,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {logEntries.map((entry) => (
+                                    {currentItems.map((entry) => (
                                         <tr key={`${entry.type}-${entry.id}`}>
                                             <td className="px-4 py-2 whitespace-nowrap">
                                                 <span className={`px-2 py-1 text-xs font-medium rounded-full ${entry.type === 'expense'
@@ -390,7 +409,46 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                                         </td>
                                     </tr>
                                 </tfoot>
+
                             </table>
+                            {logEntries.length > itemsPerPage && (
+                                <div className="flex justify-between items-center mt-4 px-4 py-2">
+                                    <div className="text-sm text-gray-500">
+                                        Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, logEntries.length)} of {logEntries.length} entries
+                                    </div>
+                                    <div className="flex space-x-1">
+                                        <button
+                                            onClick={() => paginate(currentPage - 1)}
+                                            disabled={currentPage === 1}
+                                            className={`px-3 py-1 rounded ${currentPage === 1
+                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                                        >
+                                            Previous
+                                        </button>
+                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+                                            <button
+                                                key={number}
+                                                onClick={() => paginate(number)}
+                                                className={`px-3 py-1 rounded ${currentPage === number
+                                                    ? 'bg-blue-500 text-white'
+                                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                                            >
+                                                {number}
+                                            </button>
+                                        ))}
+                                        <button
+                                            onClick={() => paginate(currentPage + 1)}
+                                            disabled={currentPage === totalPages}
+                                            className={`px-3 py-1 rounded ${currentPage === totalPages
+                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
