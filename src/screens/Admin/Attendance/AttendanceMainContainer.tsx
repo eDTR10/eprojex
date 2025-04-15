@@ -183,8 +183,8 @@ const AttendanceMainContainer = () => {
         <div className='grid grid-cols-4 gap-4 mb-5 md:grid-cols-2'>
           <div>
           <div className="text-sm font-medium text-gray-900">Select Project:</div>
-            <Select onValueChange={handleProjectChange}>
-              <SelectTrigger className='uppercase'>
+            <Select onValueChange={handleProjectChange} >
+              <SelectTrigger className='uppercase md:h-[23px]'>
                 <SelectValue placeholder="Select a project" />
               </SelectTrigger>
               <SelectContent>
@@ -203,7 +203,7 @@ const AttendanceMainContainer = () => {
           <div>
           <div className="text-sm font-medium text-gray-900">Select Employee:</div>
             <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
+              <PopoverTrigger asChild className='md:h-[23px]'>
                 <Button
                   variant="outline"
                   role="combobox"
@@ -216,7 +216,7 @@ const AttendanceMainContainer = () => {
                         return employee ? `${employee.first_name} ${employee.last_name}` : "Search Employee...";
                       })()
                     : "Search Employee..."}
-                  <ChevronsUpDown className="opacity-50" />
+                  <ChevronsUpDown className="opacity-50 md:h-7" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="p-0">
@@ -256,6 +256,7 @@ const AttendanceMainContainer = () => {
             <Input
               type="date"
               id="dateFrom"
+              className='md:h-[23px]'
               name="dateFrom"
               value={dateFrom}
               onChange={(e) => {
@@ -272,6 +273,7 @@ const AttendanceMainContainer = () => {
               type="date"
               id="dateTo"
               name="dateTo"
+              className='md:h-[23px]'
               value={dateTo}
               onChange={(e) => {
                 setDateTo(e.target.value);
