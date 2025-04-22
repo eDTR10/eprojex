@@ -34,11 +34,11 @@ const ProjectsMainContainer = lazy(() =>
   import("./screens/Admin/Projects/ProjectsMainContainer.tsx")
 );
 
-const EmployeeMainContainer= lazy(() =>
+const EmployeeMainContainer = lazy(() =>
   wait(1300).then(() => import("./screens/Admin/Employee/EmployeeMainContainer.tsx"))
 );
 
-const SettingMainContainer= lazy(() =>
+const SettingMainContainer = lazy(() =>
   wait(1300).then(() => import("./screens/Admin/Setting/SettingMainContainer.tsx"))
 );
 
@@ -46,13 +46,16 @@ const AttendanceMainContainer = lazy(() =>
   wait(1300).then(() => import("./screens/Admin/Attendance/AttendanceMainContainer.tsx"))
 );
 
+const AttendanceMainContainer2 = lazy(() =>
+  wait(1300).then(() => import("./screens/Attendance/AttendanceMainContainer.tsx"))
+);
 
 const router = createBrowserRouter([
   {
     path: "/eprojex",
     element:
       <Suspense fallback={<Loaderx />}>
-        <Login />
+        <AttendanceMainContainer2 />
       </Suspense>
     ,
   },
@@ -100,10 +103,10 @@ const router = createBrowserRouter([
       {
         path: "/eprojex/admin/employee/",
         element: <>
-        <Suspense fallback={<Loader />}>
-          <EmployeeMainContainer />
-        </Suspense>
-      </>,
+          <Suspense fallback={<Loader />}>
+            <EmployeeMainContainer />
+          </Suspense>
+        </>,
       },
       {
         path: "/eprojex/admin/setting/",
