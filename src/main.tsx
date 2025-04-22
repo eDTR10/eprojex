@@ -50,12 +50,25 @@ const AttendanceMainContainer2 = lazy(() =>
   wait(1300).then(() => import("./screens/Attendance/AttendanceMainContainer.tsx"))
 );
 
+const AttendanceMainContainer3 = lazy(() =>
+  wait(1300).then(() => import("./screens/Attendance/Display.tsx"))
+);
+
+
 const router = createBrowserRouter([
   {
     path: "/eprojex",
     element:
       <Suspense fallback={<Loaderx />}>
         <AttendanceMainContainer2 />
+      </Suspense>
+    ,
+  },
+  {
+    path: "/eprojex/display",
+    element:
+      <Suspense fallback={<Loaderx />}>
+        <AttendanceMainContainer3 />
       </Suspense>
     ,
   },
