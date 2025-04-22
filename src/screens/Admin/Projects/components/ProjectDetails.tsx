@@ -63,14 +63,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         amount: '',
     });
 
-    type LogEntry = {
-        id?: number; // Optional ID for sorting
-        type: 'expense' | 'budget';
-        title: string;
-        category?: string;
-        date: string;
-        amount: number;
-    };
+    // type LogEntry = {
+    //     id?: number; // Optional ID for sorting
+    //     type: 'expense' | 'budget';
+    //     title: string;
+    //     category?: string;
+    //     date: string;
+    //     amount: number;
+    // };
 
     // Add a computed value for combined log entries
     const logEntries = useMemo(() => {
@@ -383,7 +383,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                                             <td className={`px-4 py-2 text-sm ${entry.type === 'expense' ? 'text-red-600' : 'text-green-600'
                                                 }`}>
                                                 {entry.title}
-                                                {entry.category && <span className="text-gray-500 text-xs ml-2">({entry.category})</span>}
+                                                {/* {entry?.category && <span className="text-gray-500 text-xs ml-2">({entry.category})</span>} */}
                                             </td>
                                             <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{formatDate(entry.date)}</td>
                                             <td className={`px-4 py-2 text-sm font-medium text-right ${entry.type === 'expense' ? 'text-red-600' : 'text-green-600'
