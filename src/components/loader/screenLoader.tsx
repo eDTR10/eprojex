@@ -1,13 +1,25 @@
 import './loader.css'
-const Loaderx = () => {
+const  Loaderx = () => {
   return (
-    <div className='flex items-center justify-center w-screen h-screen bg-background '>
-<svg className='loading' viewBox="25 25 50 50">
-  <circle className='loading-circle' r="20" cy="50" cx="50"></circle>
-</svg>
-    </div>
+    <div className=' w-screen h-screen flex justify-center items-center'>
+
     
+    <div className="loading">
+  <div className="loading-wide">
+    <div className="l1 color"></div>
+    <div className="l2 color"></div>
+    <div className="e1 color animation-effect-light"></div>
+    <div className="e2 color animation-effect-light-d"></div>
+    <div className="e3 animation-effect-rot">X</div>
+    <div className="e4 color animation-effect-light"></div>
+    <div className="e5 color animation-effect-light-d"></div>
+    <div className="e6 animation-effect-scale">*</div>
+    <div className="e7 color"></div>
+    <div className="e8 color"></div>
+  </div>
+</div>
+    </div>
   )
 }
 
-export default Loaderx
+export default  Loaderx

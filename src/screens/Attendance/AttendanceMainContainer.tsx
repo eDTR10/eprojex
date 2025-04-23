@@ -99,15 +99,15 @@ const AttendanceMainContainer = () => {
                 setScanning(true);
     
                 // Then show the success message
-                await Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: `Attendance submitted successfully! Thank you ${response.data.name}`,
-                    showConfirmButton: true,
-                    confirmButtonColor: '#22c55e', // Green color
-                    timer: 5000,
-                    timerProgressBar: true,
-                });
+                // await Swal.fire({
+                //     icon: 'success',
+                //     title: 'Success!',
+                //     text: `Attendance submitted successfully! Thank you ${response.data.name}`,
+                //     showConfirmButton: true,
+                //     confirmButtonColor: '#22c55e', // Green color
+                //     timer: 5000,
+                //     timerProgressBar: true,
+                // });
     
             } catch (error) {
                 console.error('Submission error:', error);
